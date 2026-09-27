@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { scenes } from "../data/scenes";
+import { useLanguage } from "../context/LanguageContext";
 
 // Keep the original video scrub exactly three viewport-heights long. The extra
 // scroll distance is reserved for the entry and the final temple-to-site handoff.
@@ -32,6 +34,8 @@ const setLayer = (
 };
 
 export default function ScrollVideo() {
+  const { language } = useLanguage();
+  const [activeSceneIndex, setActiveSceneIndex] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const introRef = useRef<HTMLDivElement>(null);
@@ -43,6 +47,8 @@ export default function ScrollVideo() {
   const foregroundCloudRef = useRef<HTMLDivElement>(null);
   const veilCloudRef = useRef<HTMLDivElement>(null);
   const lightRaysRef = useRef<HTMLDivElement>(null);
+  const sceneOverlayRef = useRef<HTMLDivElement>(null);
+  const activeSceneRef = useRef(0);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -131,6 +137,20 @@ export default function ScrollVideo() {
         (journey - INTRO_SCROLL_VH - VIDEO_SCROLL_VH - TEMPLE_HOLD_VH) /
           CLOUD_SCROLL_VH,
       );
+      const sceneIndex = scenes.findIndex((scene) => videoProgress >= scene.start && videoProgress < scene.end);
+      const resolvedSceneIndex = sceneIndex === -1 ? scenes.length - 1 : sceneIndex;
+      if (activeSceneRef.current !== resolvedSceneIndex) {
+        activeSceneRef.current = resolvedSceneIndex;
+        setActiveSceneIndex(resolvedSceneIndex);
+      }
+      const scene = scenes[resolvedSceneIndex];
+      const sceneEntrance = smoothStep(videoProgress, scene.start, scene.start + 0.025);
+      const sceneExit = 1 - smoothStep(videoProgress, scene.end - 0.025, scene.end);
+      if (sceneOverlayRef.current) {
+        const visible = videoProgress > 0.015 && cloudProgress === 0 ? sceneEntrance * sceneExit : 0;
+        sceneOverlayRef.current.style.opacity = String(visible);
+        sceneOverlayRef.current.style.transform = `translate3d(0, ${(1 - visible) * 18}px, 0)`;
+      }
 
       const introFade = 1 - smoothStep(introProgress, 0.06, 0.9);
       if (introRef.current) {
@@ -291,6 +311,13 @@ export default function ScrollVideo() {
           <div ref={veilCloudRef} className="cloud-veil" />
           <div ref={lightRaysRef} className="cloud-light-rays" />
         </div>
+
+        <div ref={sceneOverlayRef} className={`scene-overlay scene-overlay--${scenes[activeSceneIndex].align}`}>
+          <p className="scene-overlay__chapter">{scenes[activeSceneIndex].chapter} — {language === "en" ? scenes[activeSceneIndex].en[0] : scenes[activeSceneIndex].ta[0]}</p>
+          <h2>{language === "en" ? scenes[activeSceneIndex].en[1] : scenes[activeSceneIndex].ta[1]}</h2>
+          <p>{language === "en" ? scenes[activeSceneIndex].en[2] : scenes[activeSceneIndex].ta[2]}</p>
+        </div>
+        <div className="chapter-indicator" aria-hidden="true"><span>{scenes[activeSceneIndex].chapter}</span><i /><span>06</span></div>
 
         <div ref={introRef} className="cinematic-intro">
           <div ref={introContentRef} className="cinematic-intro__content">
