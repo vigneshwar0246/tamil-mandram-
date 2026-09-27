@@ -179,8 +179,12 @@ export default function ScrollVideo() {
       const templeCovered = smoothStep(cloudProgress, 0.42, 0.68);
       if (arrivalRef.current) {
         const arrival = smoothStep(cloudProgress, 0.8, 0.98);
+        const isArrivalLocked = !enteredRef.current && arrival > 0.92;
         arrivalRef.current.style.opacity = String(enteredRef.current ? 0 : arrival);
-        arrivalRef.current.style.pointerEvents = !enteredRef.current && arrival > 0.92 ? "auto" : "none";
+        arrivalRef.current.style.pointerEvents = isArrivalLocked ? "auto" : "none";
+        // A fixed layer stays full-viewport even when momentum scrolling moves
+        // the document past the sticky container before the scroll lock lands.
+        arrivalRef.current.style.position = isArrivalLocked ? "fixed" : "absolute";
         if (!enteredRef.current && arrival > 0.92 && !arrivalLockedRef.current) {
           arrivalLockedRef.current = true;
           // Pin to the final sticky position before locking. Without this snap,
@@ -368,6 +372,11 @@ export default function ScrollVideo() {
           <button onClick={() => {
             document.body.style.overflow = "";
             arrivalLockedRef.current = false;
+            if (arrivalRef.current) {
+              arrivalRef.current.style.opacity = "0";
+              arrivalRef.current.style.pointerEvents = "none";
+              arrivalRef.current.style.position = "absolute";
+            }
             enterWebsite();
             requestAnimationFrame(() => document.getElementById("main-site")?.scrollIntoView({ behavior: "smooth", block: "start" }));
           }}>{language === "en" ? "ENTER TO EXPLORE" : "ஆராயத் தொடங்குங்கள்"}</button>
