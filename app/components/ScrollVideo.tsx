@@ -34,7 +34,7 @@ const setLayer = (
 };
 
 export default function ScrollVideo() {
-  const { language } = useLanguage();
+  const { language, toggleLanguage, entered, enterWebsite } = useLanguage();
   const [activeSceneIndex, setActiveSceneIndex] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -49,6 +49,13 @@ export default function ScrollVideo() {
   const lightRaysRef = useRef<HTMLDivElement>(null);
   const sceneOverlayRef = useRef<HTMLDivElement>(null);
   const activeSceneRef = useRef(0);
+  const arrivalRef = useRef<HTMLDivElement>(null);
+  const enteredRef = useRef(entered);
+  const arrivalLockedRef = useRef(false);
+
+  useEffect(() => {
+    enteredRef.current = entered;
+  }, [entered]);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -63,6 +70,7 @@ export default function ScrollVideo() {
     let hasMetadata = false;
     let lastAssignedTime = -1;
     let previousFrameTime = 0;
+    const originalOverflow = document.body.style.overflow;
 
     const getFinalFrameTime = () => {
       if (!Number.isFinite(video.duration) || video.duration <= 0) return 0;
@@ -169,6 +177,20 @@ export default function ScrollVideo() {
       const cloudCoverage = smoothStep(cloudProgress, 0.22, 0.73);
       const cloudClearing = smoothStep(cloudProgress, 0.8, 1);
       const templeCovered = smoothStep(cloudProgress, 0.42, 0.68);
+      if (arrivalRef.current) {
+        const arrival = smoothStep(cloudProgress, 0.8, 0.98);
+        arrivalRef.current.style.opacity = String(enteredRef.current ? 0 : arrival);
+        arrivalRef.current.style.pointerEvents = !enteredRef.current && arrival > 0.92 ? "auto" : "none";
+        if (!enteredRef.current && arrival > 0.92 && !arrivalLockedRef.current) {
+          arrivalLockedRef.current = true;
+          // Pin to the final sticky position before locking. Without this snap,
+          // a fast wheel/trackpad scroll can carry the parent past its sticky
+          // boundary and expose the page background below the arrival screen.
+          const lockedTop = window.scrollY + section.getBoundingClientRect().top + TOTAL_SCROLL_VH * window.innerHeight;
+          window.scrollTo({ top: Math.max(0, lockedTop), behavior: "auto" });
+          document.body.style.overflow = "hidden";
+        }
+      }
 
       if (cloudSceneRef.current) {
         cloudSceneRef.current.style.opacity = String(
@@ -286,6 +308,7 @@ export default function ScrollVideo() {
       if (seekAnimationFrame) cancelAnimationFrame(seekAnimationFrame);
       if (paintAnimationFrame) cancelAnimationFrame(paintAnimationFrame);
       if (settleTimer) window.clearTimeout(settleTimer);
+      document.body.style.overflow = originalOverflow;
     };
   }, []);
 
@@ -336,6 +359,18 @@ export default function ScrollVideo() {
               <span aria-hidden="true">↓</span>
             </p>
           </div>
+        </div>
+        <button className="cinematic-language" onClick={toggleLanguage} aria-label="Switch language">{language === "en" ? "தமிழ்" : "EN"}</button>
+        <div ref={arrivalRef} className={`arrival-screen ${entered ? "arrival-screen--leaving" : ""}`}>
+          <p className="arrival-screen__brand">{language === "en" ? "TAMIL MANDRAM" : "தமிழ் மன்றம்"}</p>
+          <h2>{language === "en" ? "You have arrived inside the world of Tamil heritage." : "தமிழ் மரபின் உலகிற்குள் வந்துவிட்டீர்கள்."}</h2>
+          <p>{language === "en" ? "The cinematic journey is complete. Your exploration begins here." : "சினிமாப் பயணம் நிறைவடைந்தது. உங்கள் ஆய்வு இங்கே தொடங்குகிறது."}</p>
+          <button onClick={() => {
+            document.body.style.overflow = "";
+            arrivalLockedRef.current = false;
+            enterWebsite();
+            requestAnimationFrame(() => document.getElementById("main-site")?.scrollIntoView({ behavior: "smooth", block: "start" }));
+          }}>{language === "en" ? "ENTER TO EXPLORE" : "ஆராயத் தொடங்குங்கள்"}</button>
         </div>
       </div>
     </section>

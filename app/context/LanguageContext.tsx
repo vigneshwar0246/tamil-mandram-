@@ -4,11 +4,12 @@ import { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import type { Language } from "../data/scenes";
 
-type LanguageContextValue = { language: Language; toggleLanguage: () => void };
+type LanguageContextValue = { language: Language; toggleLanguage: () => void; entered: boolean; enterWebsite: () => void };
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>("en");
+  const [entered, setEntered] = useState(false);
 
   useEffect(() => {
     const stored = window.localStorage.getItem("tamil-mandram-language");
@@ -22,7 +23,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     window.localStorage.setItem("tamil-mandram-language", language);
   }, [language]);
 
-  return <LanguageContext.Provider value={{ language, toggleLanguage: () => setLanguage((current) => current === "en" ? "ta" : "en") }}>{children}</LanguageContext.Provider>;
+  return <LanguageContext.Provider value={{ language, toggleLanguage: () => setLanguage((current) => current === "en" ? "ta" : "en"), entered, enterWebsite: () => setEntered(true) }}>{children}</LanguageContext.Provider>;
 }
 
 export function useLanguage() {
