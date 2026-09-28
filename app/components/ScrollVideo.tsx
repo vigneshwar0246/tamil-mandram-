@@ -9,6 +9,7 @@ export default function ScrollVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const { language, toggleLanguage, entered, enterWebsite } = useLanguage();
   const [progress, setProgress] = useState(0);
+  const [textProgress, setTextProgress] = useState(0);
   const [overlayTone, setOverlayTone] = useState<"light" | "dark">("light");
 
   useEffect(() => {
@@ -16,22 +17,33 @@ export default function ScrollVideo() {
     const video = videoRef.current;
     if (!section || !video) return;
     let frame = 0;
+    let textFrame = 0;
+    let targetTextProgress = 0;
+    let displayedTextProgress = 0;
     const update = () => {
       const distance = Math.max(1, section.offsetHeight - window.innerHeight);
       const next = Math.max(0, Math.min(1, -section.getBoundingClientRect().top / distance));
+      targetTextProgress = next;
       setProgress(next);
       if (video.duration && Number.isFinite(video.duration)) video.currentTime = next * video.duration;
       frame = 0;
+    };
+    const updateText = () => {
+      displayedTextProgress += (targetTextProgress - displayedTextProgress) * 0.06;
+      if (Math.abs(targetTextProgress - displayedTextProgress) < 0.001) displayedTextProgress = targetTextProgress;
+      setTextProgress(displayedTextProgress);
+      textFrame = window.requestAnimationFrame(updateText);
     };
     const onScroll = () => { if (!frame) frame = requestAnimationFrame(update); };
     video.addEventListener("loadedmetadata", update);
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     update();
-    return () => { video.removeEventListener("loadedmetadata", update); window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); if (frame) cancelAnimationFrame(frame); };
+    textFrame = window.requestAnimationFrame(updateText);
+    return () => { video.removeEventListener("loadedmetadata", update); window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); if (frame) cancelAnimationFrame(frame); if (textFrame) cancelAnimationFrame(textFrame); };
   }, []);
 
-  const scene = scenes.find((item) => progress >= item.start && progress < item.end) ?? scenes[scenes.length - 1];
+  const scene = scenes.find((item) => textProgress >= item.start && textProgress < item.end) ?? scenes[scenes.length - 1];
   const copy = language === "ta" ? scene.ta : scene.en;
   const arrived = progress > 0.82;
   const overlayVisible = !arrived && progress > 0.04;
