@@ -21,6 +21,10 @@
   box-sizing: border-box;
 }
 
+nextjs-portal {
+  display: none !important;
+}
+
 html {
   background: var(--background);
 }
@@ -45,7 +49,7 @@ a {
    for the final clearing of the clouds. It becomes a normal flow page directly
    after that handoff. */
 .cinematic-journey {
-  height: 700vh;
+  height: 860vh;
 }
 
 .cinematic-video {
@@ -97,6 +101,12 @@ a {
   align-items: center;
   text-align: center;
   will-change: opacity, transform;
+  animation: cinematic-intro-reveal 1.2s cubic-bezier(.2,.7,.2,1) both;
+}
+
+@keyframes cinematic-intro-reveal {
+  from { opacity: 0; transform: translateY(1rem); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .cinematic-intro__eyebrow,
@@ -119,6 +129,13 @@ a {
   font-weight: 400;
   letter-spacing: 0.035em;
   line-height: 0.98;
+}
+
+.cinematic-intro__description {
+  max-width: 34rem;
+  margin: 1.1rem auto 0;
+  color: rgba(246, 238, 225, .82);
+  font: 1rem/1.55 Georgia, "Noto Sans Tamil", serif;
 }
 
 .cinematic-intro__tamil {
@@ -166,10 +183,13 @@ a {
 .scene-overlay { position:absolute; z-index:2; bottom:clamp(2rem,8vh,6rem); max-width:min(31rem,76vw); opacity:0; color:#fff8ed; text-shadow:0 2px 24px #000; will-change:transform,opacity; }
 .scene-overlay--left { left:clamp(1.5rem,7vw,8rem); text-align:left; }
 .scene-overlay--right { right:clamp(1.5rem,7vw,8rem); text-align:right; }
-.scene-overlay__chapter { margin:0 0 .8rem; color:#dfc083; font-size:.66rem; font-weight:700; letter-spacing:.2em; }
+.scene-overlay__chapter { margin:0 0 .8rem; color:#fff4cf; font-size:.68rem; font-weight:700; letter-spacing:.2em; }
 .scene-overlay h2 { margin:0; font:400 clamp(2rem,4.1vw,4.5rem)/.98 Georgia,"Times New Roman",serif; }
-.scene-overlay > p:last-child { margin:1rem 0 0; color:rgba(255,248,237,.84); font:clamp(.92rem,1.25vw,1.12rem)/1.55 Georgia,serif; }
-.chapter-indicator { position:absolute; z-index:2; right:clamp(1.3rem,3vw,3rem); top:50%; display:flex; align-items:center; gap:.65rem; color:#f4ede0; font-size:.62rem; letter-spacing:.15em; transform:rotate(90deg); transform-origin:right center; }
+.scene-overlay > p:last-child { margin:1rem 0 0; color:#fffdf7; font:clamp(.9rem,1.15vw,1.05rem)/1.55 Georgia,serif; }
+.scene-overlay--dark { color:#21170f; text-shadow:0 1px 10px rgba(255,255,255,.55); }
+.scene-overlay--dark .scene-overlay__chapter { color:#6d4518; }
+.scene-overlay--dark h2, .scene-overlay--dark > p:last-child { color:#21170f; }
+.chapter-indicator { position:absolute; z-index:2; right:clamp(1.3rem,3vw,3rem); top:50%; display:flex; align-items:center; gap:.65rem; color:#fff8ed; font-size:.62rem; letter-spacing:.15em; transform:rotate(90deg); transform-origin:right center; }
 .chapter-indicator i { display:block; width:7rem; height:1px; background:linear-gradient(90deg,#c6a46a 0 35%,rgba(255,255,255,.35) 35%); }
 
 .cloud {
@@ -431,3 +451,98 @@ a {
 .heritage-gallery { padding: clamp(4rem,9vw,9rem) clamp(1.4rem,8vw,11rem); background: #b59a75; color: #20150d; }.heritage-gallery > div { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; margin-top: 2rem; background: rgba(32,21,13,.4); }.heritage-gallery article { min-height: 18rem; display: flex; padding: 1.2rem; flex-direction: column; justify-content: space-between; background: linear-gradient(145deg,#d4bea0,#9c7650); }.heritage-gallery article span { font-size: .6rem; letter-spacing: .13em; }.heritage-gallery h3 { margin: 0; font: 400 1.6rem Georgia,serif; }
 .site-footer { display: flex; gap: 1rem; align-items: center; justify-content: space-between; padding: 2rem clamp(1.4rem,8vw,11rem); background: #080604; color: #f4ede0; }.site-footer p { margin: 0; color: rgba(244,237,224,.65); }.site-footer button { border: 1px solid #c6a46a; background: transparent; color: #f4ede0; padding: .5rem .7rem; cursor: pointer; }
 @media (max-width:640px) { .heritage-gallery > div { grid-template-columns: 1fr; }.site-footer { flex-direction: column; align-items: flex-start; } }
+
+/* Editorial culture index and story system. */
+html { scroll-behavior: smooth; }
+body { font-family: "Noto Sans Tamil", "Trebuchet MS", sans-serif; }
+.static-website { position: relative; z-index: 2; }
+.website-arrival { z-index: 30; padding-top: 6.5rem; background: radial-gradient(circle at 50% 25%, #3e2c1c, #100c08 62%); }
+.website-nav { position: fixed; z-index: 30; inset: 0 0 auto; padding: 1.1rem clamp(1.2rem, 5vw, 5rem); background: rgba(12, 9, 6, .92); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(198,164,106,.2); }
+.website-nav__links { flex-wrap: wrap; justify-content: center; gap: .7rem clamp(.8rem, 2vw, 2rem); }
+.website-nav__brand, .website-nav__links, .website-nav .language-switcher { position: relative; z-index: 31; }
+.website-nav__links a { font-size: .6rem; }
+.website-arrival h1 { max-width: 780px; font-size: clamp(2.7rem, 6.2vw, 6.4rem); letter-spacing: .01em; }
+.website-arrival__lede { max-width: 32rem; color: rgba(244, 237, 224, .86); font-family: "Noto Sans Tamil", Georgia, serif; font-size: clamp(.98rem, 1.35vw, 1.16rem); }
+.hero-primary { display: inline-flex; gap: 1rem; align-items: center; margin-top: 2.4rem; padding: 1rem 1.3rem; border: 1px solid var(--gold); color: #f4ede0; text-decoration: none; font-size: .68rem; letter-spacing: .14em; }
+.hero-primary span, .culture-card b span { transition: transform .25s ease; }
+.hero-primary:hover span, .culture-card:hover b span { transform: translate(4px, -4px); }
+.culture-section, .heritage-gallery { padding: clamp(4rem, 7vw, 7rem) clamp(1.2rem, 7vw, 9rem); }
+.section-heading { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(16rem, .6fr); gap: 2.25rem; align-items: end; margin-bottom: 2.5rem; }
+.section-heading h2 { max-width: 720px; margin: .7rem 0 0; font: 400 clamp(2.2rem, 4.5vw, 4.8rem)/.98 Georgia, serif; letter-spacing: -.01em; }
+.section-heading > p { margin: 0; color: #493522; font: .98rem/1.6 Georgia, serif; }
+.culture-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; border: 0; background: transparent; }
+.culture-card { min-height: 0; padding: 0; border: 0; background: #efe5d5; color: #1c140e; transform: none; transition: transform .3s ease, box-shadow .3s ease; }
+.culture-card:hover, .culture-card:focus-visible { background: #efe5d5; color: #1c140e; transform: translateY(-6px); box-shadow: 0 18px 35px rgba(35,21,10,.2); }
+.culture-card--featured { grid-column: span 2; }
+.culture-image { position: relative; aspect-ratio: 16 / 9; width: 100%; overflow: hidden; background: #c9b18f; }
+.culture-image img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform .7s cubic-bezier(.2,.7,.2,1), filter .4s ease; }
+.culture-card:hover .culture-image img, .gallery-grid a:hover .culture-image img { transform: scale(1.06); filter: saturate(1.08); }
+.culture-image--missing { display: grid; place-items: center; color: #725534; font-size: .6rem; letter-spacing: .15em; }
+.culture-card__body { padding: 1.15rem 1.2rem 1.3rem; }
+.culture-number { color: #6f4a21; font-size: .66rem; letter-spacing: .15em; }
+.culture-card h3 { min-height: 2.6em; margin: .7rem 0 .55rem; font: 400 clamp(1.08rem, 1.35vw, 1.42rem)/1.15 Georgia, "Noto Sans Tamil", serif; letter-spacing: 0; }
+.culture-card p { min-height: 4.4em; margin: 0 0 1rem; color: #493522; font-size: .8rem; line-height: 1.5; }
+.culture-card b { display: flex; justify-content: space-between; color: #5c3c1a; font-size: .62rem; letter-spacing: .14em; text-transform: uppercase; }
+.culture-card b span { font-size: 1.1rem; }
+.heritage-gallery { background: #8f704d; color: #f7eddf; }
+.heritage-gallery > .section-heading { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(16rem, .6fr); gap: 2.25rem; align-items: end; margin: 0 0 2.5rem; padding: 0; background: transparent; }
+.heritage-gallery > .section-heading h2 { color: #fff8ed; }
+.heritage-gallery > .section-heading > p { color: #f8ead5; }
+.heritage-gallery .website-kicker { color: #f4d090; }
+.gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,.25); }
+.gallery-grid a { position: relative; min-width: 0; overflow: hidden; background: #3a291b; color: #fff8ed; text-decoration: none; }
+.gallery-grid .culture-image { aspect-ratio: 1 / 1.12; opacity: .82; }
+.gallery-grid a::after { position: absolute; inset: 45% 0 0; content: ""; background: linear-gradient(transparent, rgba(12,8,4,.9)); pointer-events: none; }
+.gallery-grid span, .gallery-grid h3 { position: absolute; z-index: 1; left: 1rem; }
+.gallery-grid span { top: 1rem; color: #f4d090; font-size: .65rem; }
+.gallery-grid h3 { right: 1rem; bottom: 1rem; margin: 0; font: 400 1rem/1.15 Georgia, "Noto Sans Tamil", serif; }
+.traditions-band { padding: clamp(4rem, 7vw, 7rem) clamp(1.2rem, 7vw, 9rem); background: #21170f; color: #f4ede0; }
+.traditions-band h2 { max-width: 55rem; margin: 1rem 0 0; font: 400 clamp(2.3rem, 5vw, 5.5rem)/.98 Georgia, serif; }
+.story-sections { background: #eee4d3; color: #21170f; }
+.culture-story { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); min-height: 90vh; scroll-margin-top: 5rem; }
+.culture-story:nth-child(even) { background: #d5c2a8; }
+.culture-story--1 .culture-story__image { order: 2; }
+.culture-story--2 { grid-template-columns: 1fr; min-height: auto; }
+.culture-story--2 .culture-story__image { aspect-ratio: 2 / 1; }
+.culture-story__image { height: 100%; min-height: 420px; aspect-ratio: auto; }
+.culture-story__copy { display: flex; flex-direction: column; justify-content: center; padding: clamp(2.5rem, 6vw, 6.5rem); }
+.culture-story__copy h2 { margin: .65rem 0 1.1rem; font: 400 clamp(2.2rem, 4vw, 4.5rem)/1 Georgia, "Noto Sans Tamil", serif; letter-spacing: 0; }
+.culture-story__intro { max-width: 34rem; color: #3f2c1c; font: 1.12rem/1.5 Georgia, "Noto Sans Tamil", serif; }
+.culture-story__copy > p:not(.website-kicker):not(.culture-story__intro) { max-width: 36rem; color: #493522; font: .94rem/1.65 Georgia, "Noto Sans Tamil", serif; }
+.culture-story__significance { display: grid; gap: .55rem; margin-top: 1.4rem; padding-top: 1.2rem; border-top: 1px solid rgba(33,23,15,.28); }
+.culture-story__significance strong, .related-cultures strong { color: #6f4a21; font-size: .62rem; letter-spacing: .15em; }
+.related-cultures { display: flex; flex-wrap: wrap; gap: .55rem .9rem; margin-top: 2rem; }
+.related-cultures strong { flex-basis: 100%; }
+.related-cultures a { color: inherit; font-size: .82rem; text-decoration: none; border-bottom: 1px solid currentColor; }
+.story-pagination { display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; padding-top: 1rem; border-top: 1px solid rgba(33,23,15,.28); font-size: .68rem; letter-spacing: .08em; }
+.story-pagination a { color: inherit; text-decoration: none; }
+.preservation-section { display: grid; grid-template-columns: 1.2fr .8fr; gap: 3rem; padding: clamp(4rem, 7vw, 7rem) clamp(1.2rem, 7vw, 9rem); background: #b89a70; color: #21170f; }
+.preservation-section h2 { max-width: 52rem; margin: 1rem 0 0; font: 400 clamp(2.3rem, 5vw, 5.2rem)/.98 Georgia, "Noto Sans Tamil", serif; }
+.preservation-section p { color: #3f2c1c; font: 1.02rem/1.6 Georgia, "Noto Sans Tamil", serif; }
+.preservation-section a { display: inline-block; margin-top: 1rem; color: inherit; font-size: .68rem; letter-spacing: .14em; text-decoration: none; border-bottom: 1px solid currentColor; }
+.site-footer { flex-wrap: wrap; padding-top: 3rem; padding-bottom: 3rem; }
+.site-footer strong { color: var(--gold); font-size: .75rem; letter-spacing: .17em; }
+.site-footer p { margin-top: .6rem; font-size: .85rem; }
+.footer-links { display: flex; flex-wrap: wrap; gap: .8rem 1.4rem; }
+.footer-links a { font-size: .7rem; text-decoration: none; }
+
+@media (max-width: 900px) {
+  .website-nav__links { display: none; }
+  .culture-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .section-heading, .preservation-section { grid-template-columns: 1fr; gap: 1.5rem; }
+  .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+  .culture-story { grid-template-columns: 1fr; min-height: auto; }
+  .culture-story--1 .culture-story__image { order: 0; }
+  .culture-story__image { min-height: 0; aspect-ratio: 16 / 10; height: auto; }
+  .culture-story__copy { padding: 4rem 1.4rem 5rem; }
+}
+@media (max-width: 560px) {
+  .website-arrival { padding-top: 5.5rem; }
+  .culture-grid, .gallery-grid { grid-template-columns: 1fr; }
+  .culture-card--featured { grid-column: auto; }
+  .culture-card h3, .culture-card p { min-height: 0; }
+  .gallery-grid .culture-image { aspect-ratio: 16 / 10; }
+  .gallery-grid h3 { font-size: 1.35rem; }
+  .culture-story--2 .culture-story__image { aspect-ratio: 16 / 10; }
+  .site-footer { align-items: flex-start; }
+}
