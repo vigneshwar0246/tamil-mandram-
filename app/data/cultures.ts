@@ -39,14 +39,29 @@ const base = [
   ["music", "Music & Musical Traditions", "இசையும் இசை மரபுகளும்", "Rhythm and melody preserve devotion, language and feeling.", "தாளமும் ராகமும் பக்தி, மொழி, உணர்வை பாதுகாக்கின்றன.", "ppp.png", ["dance", "architecture", "festivals"]],
   ["dress", "Dress & Ornamentation", "உடையும் அணிகலன்களும்", "Textile, colour and ornament tell social and regional stories.", "நெசவு, நிறம், அணிகலன் சமூக மற்றும் வட்டாரக் கதைகளை சொல்கின்றன.", "dress.png", ["crafts", "festivals", "dance"]],
   ["village-life", "Village & Agricultural Heritage", "கிராமிய மற்றும் வேளாண் மரபு", "Fields and village life hold deep ecological knowledge.", "வயலும் கிராம வாழ்வும் ஆழமான இயற்கை அறிவை தாங்குகின்றன.", "agri.png", ["cuisine", "festivals", "folk-arts"]],
-  ["martial", "Martial & Physical Traditions", "வீர மற்றும் உடற்கலை மரபுகள்", "Discipline, agility and courage are practiced cultural knowledge.", "ஒழுக்கம், சுறுசுறுப்பு, துணிவு பயிற்சியாகும் பண்பாட்டு அறிவு.", "ChatGPT Image Sep 28, 2026, 08_21_40 PM.png", ["dance", "folk-arts", "music"]],
-  ["monuments", "Historical Places & Monuments", "வரலாற்று இடங்களும் நினைவுச் சின்னங்களும்", "Places make the scale and continuity of history tangible.", "இடங்கள் வரலாற்றின் தொடர்ச்சியையும் பரப்பையும் உணர்த்துகின்றன.", "ChatGPT Image Sep 28, 2026, 08_21_43 PM.png", ["architecture", "language", "music"]],
+  ["martial", "Martial & Physical Traditions", "வீர மற்றும் உடற்கலை மரபுகள்", "Discipline, agility and courage are practiced cultural knowledge.", "ஒழுக்கம், சுறுசுறுப்பு, துணிவு பயிற்சியாகும் பண்பாட்டு அறிவு.", "martial.png", ["dance", "folk-arts", "music"]],
+  ["monuments", "Historical Places & Monuments", "வரலாற்று இடங்களும் நினைவுச் சின்னங்களும்", "Places make the scale and continuity of history tangible.", "இடங்கள் வரலாற்றின் தொடர்ச்சியையும் பரப்பையும் உணர்த்துகின்றன.", "monuments.png", ["architecture", "language", "music"]],
+] as const;
+
+const significance = [
+  ["Literature and everyday speech keep Tamil knowledge open to new readers and speakers.", "இலக்கியமும் அன்றாடப் பேச்சும் தமிழ் அறிவைப் புதிய வாசகர்களிடமும் பேசுபவர்களிடமும் கொண்டு செல்கின்றன."],
+  ["Temple spaces connect craft, worship and collective life across generations.", "கோயில் வெளிகள் கைவினை, வழிபாடு, சமூக வாழ்வு ஆகியவற்றை தலைமுறைகள் கடந்து இணைக்கின்றன."],
+  ["Performance carries poetry, rhythm and expression through embodied practice.", "நிகழ்கலை கவிதை, தாளம், உணர்வு ஆகியவற்றை உடல் பயிற்சியின் வழி தொடரச் செய்கிறது."],
+  ["Local performers sustain forms shaped by the places and communities around them.", "உள்ளூர் கலைஞர்கள் தங்கள் இடங்களும் சமூகங்களும் வடிவமைத்த கலைகளைத் தொடரச் செய்கிறார்கள்."],
+  ["Shared festivals renew ties between season, food, devotion and community.", "கூட்டுத் திருவிழாக்கள் பருவம், உணவு, பக்தி, சமூகம் ஆகியவற்றின் உறவைப் புதுப்பிக்கின்றன."],
+  ["Recipes and shared meals carry regional knowledge into family life.", "சமையல் முறைகளும் கூட்டு உணவும் வட்டார அறிவைக் குடும்ப வாழ்விற்குக் கொண்டு செல்கின்றன."],
+  ["Making by hand preserves knowledge of material, technique and place.", "கைகளால் உருவாக்குதல் பொருள், நுட்பம், இடம் பற்றிய அறிவைப் பாதுகாக்கிறது."],
+  ["Music gives language and ceremony a shared sound across generations.", "இசை மொழிக்கும் சடங்குக்கும் தலைமுறைகள் கடந்து பகிரப்படும் ஒலியைத் தருகிறது."],
+  ["Textiles and adornment reveal regional skill as well as personal identity.", "நெசவும் அணிகலன்களும் வட்டாரத் திறனையும் தனிப்பட்ட அடையாளத்தையும் வெளிப்படுத்துகின்றன."],
+  ["Agricultural practices link ecological knowledge with cooperation and care.", "வேளாண் நடைமுறைகள் இயற்கை அறிவை ஒத்துழைப்புடனும் பராமரிப்புடனும் இணைக்கின்றன."],
+  ["Physical traditions pass on discipline and skill through guided practice.", "உடற்கலை மரபுகள் வழிகாட்டப்பட்ட பயிற்சியின் மூலம் ஒழுக்கத்தையும் திறனையும் தொடரச் செய்கின்றன."],
+  ["Historic places help communities encounter the layers of their shared past.", "வரலாற்று இடங்கள் சமூகங்கள் தங்கள் பகிர்ந்த கடந்த காலத்தின் அடுக்குகளை அறிய உதவுகின்றன."],
 ] as const;
 
 export const cultures: Culture[] = base.map(([id, titleEn, titleTa, descriptionEn, descriptionTa, filename, related], index) => ({
   id, number: String(index + 1).padStart(2, "0"), titleEn, titleTa, descriptionEn, descriptionTa,
   image: `/images/heritage/${id}/${filename}`,
   detailEn: stories[index][0], detailTa: stories[index][1],
-  significanceEn: "This living tradition keeps knowledge portable, participatory and meaningful across generations.",
-  significanceTa: "இந்த வாழும் மரபு அறிவை தலைமுறைகள் கடந்து பகிரக்கூடியதாகவும் அர்த்தமுள்ளதாகவும் வைத்திருக்கிறது.", related: [...related],
+  significanceEn: significance[index][0],
+  significanceTa: significance[index][1], related: [...related],
 }));

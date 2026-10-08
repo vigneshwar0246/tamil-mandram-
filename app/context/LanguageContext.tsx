@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import type { Language } from "../data/scenes";
 
@@ -10,6 +10,7 @@ const LanguageContext = createContext<LanguageContextValue | null>(null);
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>("en");
   const [entered, setEntered] = useState(false);
+  const enterWebsite = useCallback(() => setEntered(true), []);
 
   useEffect(() => {
     const stored = window.localStorage.getItem("tamil-heritage-language") ?? window.localStorage.getItem("tamil-mandram-language");
@@ -23,7 +24,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     window.localStorage.setItem("tamil-heritage-language", language);
   }, [language]);
 
-  return <LanguageContext.Provider value={{ language, toggleLanguage: () => setLanguage((current) => current === "en" ? "ta" : "en"), entered, enterWebsite: () => setEntered(true) }}>{children}</LanguageContext.Provider>;
+  return <LanguageContext.Provider value={{ language, toggleLanguage: () => setLanguage((current) => current === "en" ? "ta" : "en"), entered, enterWebsite }}>{children}</LanguageContext.Provider>;
 }
 
 export function useLanguage() {

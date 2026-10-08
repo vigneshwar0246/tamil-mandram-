@@ -1,11 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #080604;
-  --foreground: #f4ede0;
-  --ink: #17110c;
-  --gold: #c6a46a;
-  --paper: #eee4d3;
+  --background: #14100d;
+  --foreground: #f7f0e5;
+  --ink: #211710;
+  --gold: #c4a06a;
+  --paper: #f3ebdd;
+  --charcoal: #241a15;
+  --sandalwood: #d7c2a3;
+  --terracotta: #a45c3d;
+  --maroon: #5b252b;
   --font-geist-sans: Arial, Helvetica, sans-serif;
   --font-geist-mono: "Courier New", monospace;
 }
@@ -49,7 +53,7 @@ a {
    for the final clearing of the clouds. It becomes a normal flow page directly
    after that handoff. */
 .cinematic-journey {
-  height: 860vh;
+  height: 560vh;
 }
 
 .cinematic-video {
@@ -101,7 +105,7 @@ a {
   align-items: center;
   text-align: center;
   will-change: opacity, transform;
-  animation: cinematic-intro-reveal 1.2s cubic-bezier(.2,.7,.2,1) both;
+  animation: cinematic-intro-reveal .7s cubic-bezier(.2,.7,.2,1) both;
 }
 
 @keyframes cinematic-intro-reveal {
@@ -129,6 +133,12 @@ a {
   font-weight: 400;
   letter-spacing: 0.035em;
   line-height: 0.98;
+}
+
+html:lang(ta) .cinematic-intro__title {
+  font-family: var(--font-tamil-serif), Georgia, serif;
+  font-size: clamp(2rem, 4.8vw, 4.5rem);
+  line-height: 1.2;
 }
 
 .cinematic-intro__description {
@@ -405,6 +415,11 @@ a {
     line-height: 1.02;
   }
 
+  html:lang(ta) .cinematic-intro__title {
+    font-size: clamp(1.7rem, 8vw, 3rem);
+    line-height: 1.25;
+  }
+
   .cinematic-intro__scroll-cue {
     margin-top: clamp(2.75rem, 13vh, 5rem);
   }
@@ -536,6 +551,12 @@ body { font-family: "Noto Sans Tamil", "Trebuchet MS", sans-serif; }
   .culture-story__image { min-height: 0; aspect-ratio: 16 / 10; height: auto; }
   .culture-story__copy { padding: 4rem 1.4rem 5rem; }
 }
+@media (max-width: 1600px) {
+  html:lang(ta) .mobile-menu-toggle { display: block; margin-left: auto; }
+  html:lang(ta) .website-nav__links { display: none; position: absolute; top: 100%; left: 0; right: 0; max-height: calc(100dvh - 4rem); overflow-y: auto; padding: 1rem 1.2rem 1.5rem; background: var(--background); border-bottom: 1px solid var(--gold); }
+  html:lang(ta) .website-nav__links--open { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .25rem .75rem; }
+  html:lang(ta) .website-nav__links a { min-height: 44px; display: flex; align-items: center; }
+}
 @media (max-width: 560px) {
   .website-arrival { padding-top: 5.5rem; }
   .culture-grid, .gallery-grid { grid-template-columns: 1fr; }
@@ -545,4 +566,82 @@ body { font-family: "Noto Sans Tamil", "Trebuchet MS", sans-serif; }
   .gallery-grid h3 { font-size: 1.35rem; }
   .culture-story--2 .culture-story__image { aspect-ratio: 16 / 10; }
   .site-footer { align-items: flex-start; }
+}
+
+/* Museum palette and accessible interaction layer. */
+html { scroll-behavior: auto; scroll-padding-top: 5rem; }
+body { background: var(--background); color: var(--foreground); }
+body { font-family: Arial, Helvetica, sans-serif; }
+html:lang(ta) body { font-family: var(--font-tamil-sans), Arial, sans-serif; }
+html:lang(ta) p, html:lang(ta) a, html:lang(ta) button { font-family: var(--font-tamil-sans), Arial, sans-serif; }
+html:lang(ta) h1, html:lang(ta) h2, html:lang(ta) h3 { font-family: var(--font-tamil-serif), Georgia, serif; }
+.website-arrival__tamil, .cinematic-intro__tamil { font-family: var(--font-tamil-sans), Arial, sans-serif; }
+button, a { -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 2px solid var(--terracotta); outline-offset: 4px; }
+.skip-link { position: fixed; z-index: 100; top: .75rem; left: .75rem; padding: .8rem 1rem; transform: translateY(-180%); background: var(--paper); color: var(--ink); }
+.skip-link:focus { transform: none; }
+.skip-intro { position: absolute; z-index: 8; right: 5.5rem; top: 1.35rem; min-height: 44px; display: inline-flex; align-items: center; color: var(--foreground); font: 600 .7rem/1.2 Arial, sans-serif; letter-spacing: .1em; text-decoration: none; }
+.static-website { opacity: 1; pointer-events: auto; transform: none; transition: none; }
+.static-website:not(.static-website--entered) .website-nav { visibility: hidden; }
+.website-arrival { background: radial-gradient(ellipse at 70% 25%, #422b1d 0%, var(--charcoal) 42%, var(--background) 100%); }
+.website-nav { background: var(--background); backdrop-filter: none; }
+.website-nav__brand { color: #e4bd83; font-size: .9rem; }
+.website-nav__links a { color: var(--foreground); font-size: .66rem; }
+.website-arrival__content { width: min(92vw, 850px); }
+.website-arrival h1 { margin-inline: auto; font-size: clamp(2.65rem, 6.2vw, 6.8rem); line-height: 1.05; text-wrap: balance; }
+.website-arrival__lede { max-width: 38rem; font-size: clamp(1.02rem, 1.4vw, 1.23rem); line-height: 1.7; }
+.cinematic-intro__eyebrow, .website-kicker { letter-spacing: .2em; }
+.culture-section { background: var(--paper); }
+.culture-section .website-kicker, .culture-story .website-kicker { color: #59351f; }
+.culture-card { background: #fff9ee; }
+.culture-card:hover, .culture-card:focus-visible { background: #fff9ee; transform: translateY(-3px); box-shadow: 0 10px 25px rgba(35,21,10,.13); }
+.culture-card h3 { line-height: 1.28; }
+.culture-card p { font-size: .88rem; line-height: 1.6; }
+.culture-image img { object-fit: cover; }
+.gallery-grid a:hover .culture-image img, .culture-card:hover .culture-image img { transform: scale(1.025); }
+.heritage-gallery { background: var(--sandalwood); color: var(--ink); }
+.heritage-gallery > .section-heading h2, .heritage-gallery > .section-heading > p { color: var(--ink); }
+.heritage-gallery .website-kicker { color: #714724; }
+.traditions-band { background: var(--maroon); }
+.traditions-band p:last-child { max-width: 36rem; margin-top: 1.5rem; color: #f0ded9; line-height: 1.65; }
+.story-sections { background: var(--paper); }
+.culture-story:nth-child(even) { background: var(--sandalwood); }
+.culture-story { min-height: 0; }
+.culture-story__copy > p:not(.website-kicker):not(.culture-story__intro) { font-size: 1rem; line-height: 1.75; }
+.preservation-section { background: var(--charcoal); color: var(--foreground); }
+.preservation-section p, .preservation-section .website-kicker { color: #dec7a7; }
+.site-footer { background: var(--background); }
+.footer-links a, .story-pagination a { min-height: 44px; display: inline-flex; align-items: center; }
+.mobile-menu-toggle { display: none; min-height: 44px; border: 1px solid var(--gold); padding: .6rem .9rem; color: var(--foreground); background: transparent; cursor: pointer; }
+@media (max-width: 900px) {
+  .mobile-menu-toggle { display: block; margin-left: auto; }
+  .website-nav__links { display: none; position: absolute; top: 100%; left: 0; right: 0; max-height: calc(100dvh - 4rem); overflow-y: auto; padding: 1rem 1.2rem 1.5rem; background: var(--background); border-bottom: 1px solid var(--gold); }
+  .website-nav__links--open { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .25rem .75rem; }
+  .website-nav__links a { min-height: 44px; display: flex; align-items: center; }
+  .website-nav .language-switcher { min-height: 44px; }
+}
+@media (max-width: 560px) {
+  .cinematic-journey { height: 480vh; }
+  .skip-intro { top: 4rem; right: 1.35rem; }
+  .website-nav { gap: .6rem; }
+  .website-nav__brand { font-size: .72rem; }
+  .website-arrival h1 { font-size: clamp(2.45rem, 10vw, 4rem); }
+  .section-heading h2, .culture-story__copy h2 { line-height: 1.15; }
+  .culture-story__copy { padding: 3rem 1.25rem 4rem; }
+}
+/* Keep navigation discoverable at every screen size. */
+.mobile-menu-toggle { display: block; margin-left: auto; }
+.website-nav__links,
+html:lang(ta) .website-nav__links { display: none; position: absolute; top: 100%; right: clamp(1.2rem, 5vw, 5rem); left: auto; width: min(22rem, calc(100vw - 2.4rem)); max-height: calc(100dvh - 5rem); overflow-y: auto; padding: 1rem; background: var(--background); border: 1px solid var(--gold); }
+.website-nav__links--open,
+html:lang(ta) .website-nav__links--open { display: grid; grid-template-columns: 1fr; gap: .2rem; }
+.website-nav__links a { min-height: 44px; display: flex; align-items: center; padding: .45rem .6rem; }
+.website-nav__links a:hover,
+.website-nav__links a:focus-visible { background: var(--charcoal); }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .cinematic-journey { height: 100dvh; }
+  .website-arrival { margin-top: 0; }
+  .static-website { opacity: 1; transform: none; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
