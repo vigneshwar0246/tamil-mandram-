@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Tamil Mandram",
+  title: "Tamil Heritage",
   description: "Enter the soul of Tamil culture.",
 };
 

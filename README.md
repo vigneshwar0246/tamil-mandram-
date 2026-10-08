@@ -1,6 +1,6 @@
-# Tamil Mandram
+# Tamil Heritage
 
-Tamil Mandram is an image-rich, bilingual Tamil heritage exploration website with a scroll-driven cinematic introduction.
+Tamil Heritage is an image-rich, bilingual exploration of Tamil culture with a scroll-driven cinematic introduction.
 
 ## Run locally
 

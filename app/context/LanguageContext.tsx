@@ -12,7 +12,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [entered, setEntered] = useState(false);
 
   useEffect(() => {
-    const stored = window.localStorage.getItem("tamil-mandram-language");
+    const stored = window.localStorage.getItem("tamil-heritage-language") ?? window.localStorage.getItem("tamil-mandram-language");
     if (stored !== "ta" && stored !== "en") return;
     const frame = requestAnimationFrame(() => setLanguage(stored));
     return () => cancelAnimationFrame(frame);
@@ -20,7 +20,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.documentElement.lang = language;
-    window.localStorage.setItem("tamil-mandram-language", language);
+    window.localStorage.setItem("tamil-heritage-language", language);
   }, [language]);
 
   return <LanguageContext.Provider value={{ language, toggleLanguage: () => setLanguage((current) => current === "en" ? "ta" : "en"), entered, enterWebsite: () => setEntered(true) }}>{children}</LanguageContext.Provider>;
